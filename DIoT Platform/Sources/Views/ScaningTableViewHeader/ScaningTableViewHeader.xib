@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScaningTableViewHeader" customModule="DIoT_Demo_iOS" customModuleProvider="target">
+            <connections>
+                <outlet property="ResultsLabel" destination="E4P-Dj-ub9" id="ODI-3I-YSh"/>
+                <outlet property="scanButton" destination="6nG-tw-bTd" id="fUC-DX-WCI"/>
+                <outlet property="scaningFilterLabel" destination="5UM-aJ-xbE" id="v0a-Pp-ZqP"/>
+                <outlet property="scaningFilterTextField" destination="Eyr-Gx-SaF" id="3zT-bt-hE9"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="484" height="144"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scaning filter (device name or id):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5UM-aJ-xbE">
+                    <rect key="frame" x="16" y="16" width="336" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eyr-Gx-SaF">
+                    <rect key="frame" x="16" y="53" width="336" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Results:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4P-Dj-ub9">
+                    <rect key="frame" x="16" y="103" width="61" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nG-tw-bTd">
+                    <rect key="frame" x="368" y="55" width="100" height="30"/>
+                    <color key="backgroundColor" name="AccentColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="b0q-NU-Emh"/>
+                        <constraint firstAttribute="height" constant="30" id="w3S-jE-xgL"/>
+                    </constraints>
+                    <state key="normal" title="Scan">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="E4P-Dj-ub9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="0B4-pi-IfC"/>
+                <constraint firstItem="5UM-aJ-xbE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="5lq-y0-NEd"/>
+                <constraint firstItem="Eyr-Gx-SaF" firstAttribute="trailing" secondItem="6nG-tw-bTd" secondAttribute="leading" constant="-16" id="MZg-0d-pw1"/>
+                <constraint firstItem="5UM-aJ-xbE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="OO0-h3-xLi"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="6nG-tw-bTd" secondAttribute="trailing" constant="16" id="Vm7-wp-SRz"/>
+                <constraint firstItem="E4P-Dj-ub9" firstAttribute="top" secondItem="Eyr-Gx-SaF" secondAttribute="bottom" constant="16" id="Ydo-9u-07o"/>
+                <constraint firstItem="6nG-tw-bTd" firstAttribute="centerY" secondItem="Eyr-Gx-SaF" secondAttribute="centerY" id="ZXb-Hh-epf"/>
+                <constraint firstItem="Eyr-Gx-SaF" firstAttribute="top" secondItem="5UM-aJ-xbE" secondAttribute="bottom" constant="16" id="aZ2-SY-OSq"/>
+                <constraint firstItem="5UM-aJ-xbE" firstAttribute="trailing" secondItem="6nG-tw-bTd" secondAttribute="leading" constant="-16" id="vi9-cW-NnH"/>
+                <constraint firstItem="Eyr-Gx-SaF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="wvv-8e-c0Z"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="166.66666666666669" y="-105.80357142857143"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
