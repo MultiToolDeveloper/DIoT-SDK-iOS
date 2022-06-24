@@ -41,10 +41,10 @@ public protocol DIoTBluetoothScanningManagerProtocol: DIoTBluetoothManagerProtoc
     /// - Parameter allowDuplicates: if set to `true` it will return one device multiple
     /// times (actually every time it is found with the system) and if set to `false`
     /// it will return only unique peripherals
-    func scanForPeripherals(withServices services: [BluetoothServiceType]?, allowDuplicates: Bool)
+    func startScan(withServices services: [BluetoothServiceType]?, allowDuplicates: Bool)
 
     /// Stops scanning for peripherals
-    func stopScanningForPeripherals()
+    func stopScan()
 }
 
 /// Bluetooth manager connection protocol. Defines methods with which peripheral can be connected or disconnected

@@ -75,11 +75,11 @@ class ScaningViewController: UIViewController {
         if !isScaning {
             //start scan
             DIoT.bluetoothManager.subscribe(self, to: .scan)
-            DIoT.bluetoothManager.scanForPeripherals(withServices: nil, allowDuplicates: true)
+            DIoT.bluetoothManager.startScan(withServices: nil, allowDuplicates: true)
             scaningTableHeader.scanButton.setTitle("Stop", for: .normal)
         } else {
             //stop scan
-            DIoT.bluetoothManager.stopScanningForPeripherals()
+            DIoT.bluetoothManager.stopScan()
             DIoT.bluetoothManager.unsubscribe(self, from: .scan)
             scaningTableHeader.scanButton.setTitle("Scan", for: .normal)
             

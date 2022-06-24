@@ -53,7 +53,7 @@ extension DIoTBluetoothManager: DIoTBluetoothManagerProtocol {
 
 // MARK: - BluetoothScanningManagerProtocol
 extension DIoTBluetoothManager: DIoTBluetoothScanningManagerProtocol {
-    public func scanForPeripherals(withServices services: [BluetoothServiceType]?, allowDuplicates: Bool) {
+    public func startScan(withServices services: [BluetoothServiceType]?, allowDuplicates: Bool) {
         let options = [
             CBCentralManagerScanOptionAllowDuplicatesKey: allowDuplicates
         ]
@@ -70,7 +70,7 @@ extension DIoTBluetoothManager: DIoTBluetoothScanningManagerProtocol {
         }
     }
 
-    public func stopScanningForPeripherals() {
+    public func stopScan() {
         logger?.info("[Bluetooth Manager] stop scanning for peripherals")
 
         scanForServiceUUIDs?.removeAll()
