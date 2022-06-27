@@ -1,10 +1,14 @@
-# DIoT iOS SDK
+# DIoT Android SDK
 
-Welcome to DIoT iOS SDK Demo Application page!
+**Welcome to DIoT Android SDK Application page!**
+
 DIoT is a platform for different IoT devices provided by Daatrics LTD company.
-Current SDK is released for both iOS and Android systems and and you are free to use in to implement connectivity between your phone and device via BLE.
+The current SDK is released for iOS and Android systems and and you are free to use it to implement a connectivity between your phone and device via BLE. 
+
+SDK project also contains demo apps with a whole work flow implementation.
 
 ## Initialization
+
 The initialization process contains several steps:
 1) Init pods inside your project directory:
 
@@ -27,7 +31,8 @@ The initialization process contains several steps:
 
 
 ## Scanning
-The main module of the Bluetooth SDK part is DIoTBluetoothManager. This class is used as an additional level after the system classes BluetoothManager and BluetoothAdapter. Its tasks include: checking the status of the system BT adapter, scanning BLE devices, forwarding status events to subscribers of the service.
+
+The main SDK Bluetooth module is DIoTBluetoothManager. This class is used as an additional level after the system classes BluetoothManager and BluetoothAdapter. It is used to: check the status of the system BT adapter, scann BLE devices, forward status events to subscribers of the service.
 
 		public protocol DIoTBluetoothManagerProtocol: class {
 		    var queue: DispatchQueue { get }
@@ -50,7 +55,8 @@ The main module of the Bluetooth SDK part is DIoTBluetoothManager. This class is
 		    func connect(to peripheral: PeripheralProtocol)
 		    func disconnect(from peripheral: PeripheralProtocol)
 		}
-To get the scan result, you need to subscribe to DIoTBluetoothManager events for example:
+		
+To get the scan result, you need to subscribe to DIoTBluetoothManager events, for example:
 
 		DIoT.bluetoothManager.subscribe(self, to: .scan)
 		DIoT.bluetoothManager.startScan(withServices: nil, allowDuplicates: true)
@@ -85,7 +91,7 @@ After the request next delegate will be triggered:
 		    func bluetoothManagerResetting(_ manager: DIoTBluetoothConnectionManagerProtocol)
 		}
 
-## Connection
+## Device
 
 As a result of the scan, one or more DIoT devices will be returned, this class contains connection functions, a list of services and signal strength determination, as well as information about the device (name, id, etc.):
 
@@ -103,9 +109,19 @@ As a result of the scan, one or more DIoT devices will be returned, this class c
 		    var debugService: DIoTDebugBluetoothServiceProtocol? { get }
 		}
 
+Device structure contains services and functions with data structures is used to communication with IoT device via BLE connection.
+
+- connectionService is used to connect and disconnect to current device
+- deviceInformationService is used to get device's version information
+- batteryService is used to get device's battery information
+- commandInterfaceService is used to get current device features, and setup connection between features and data channels (for example: 1 -  get list of the current device features; 2 - get one of those features and connect it to the data channel; 3 - set up the data rate on the target data channel). The data rate sets up like integer number in ms (the current channel update delay), default data rate is 0 or auto update.
+- dataInterfaceService is used to get data from the connected features (each device content up to 9 data channels with indexes: 1...9)
+- deviceIdentifierService - is used to receive device UUID
+- debugService - is used to communicate with internal CLI
+
 To connect to the device, you must use the connect method in the ConnectionService service of the DIoTBluetoothDevice class:
 
-		var device: DIoTBluetoothDevice? = nil
+		var device: DIoTBluetoothDevice? = ... //result of a scan
 		if  let device = device {
 			device.connectionService?.subscribe(subscriber: self)
 			device.connectionService?.connect()
@@ -122,6 +138,7 @@ You have to use the connectionService.subscribe() function and implement a deleg
 		}
 
 ## Data exchange
+
 The data exchange is carried out through services designated in the DIoTBluetoothDevice class.
 
 		public protocol DIoTBluetoothDeviceProtocol {
@@ -149,26 +166,80 @@ Let's try to get data from the DIoT Command Interface service.
 1) Subscribe to receive data from the DIoT Command Interface service
 
    		device.commandInterfaceService?.subscribe(subscriber: self)
-2) Implement delegate methods:
+2) Implement the DIoTCommandInterfaceBluetoothServiceDelegate methods:
 
-		    public protocol DIoTCommandInterfaceBluetoothServiceDelegate: class {
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandFeatures features: [DIoTFeatureData])
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandChannels channels: [DIoTChannelData])
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandRate rates: [DIoTRateData])
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveError error: DIoTCommandInterfaceBluetoothServiceError)
-			    
-			    func commandInterfaceBluetoothServiceDidWriteCommandFeatures(_ service: DIoTCommandInterfaceBluetoothServiceProtocol)
-			    func commandInterfaceBluetoothServiceDidWriteCommandChannels(_ service: DIoTCommandInterfaceBluetoothServiceProtocol)
-			    func commandInterfaceBluetoothServiceDidWriteCommandRate(_ service: DIoTCommandInterfaceBluetoothServiceProtocol)
-			    
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionFeaturesStatusChange enabled: Bool)
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionChannelsStatusChange enabled: Bool)
-			    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionRatesStatusChange enabled: Bool)
-			}
+		    extension ServicesViewController:  DIoTCommandInterfaceBluetoothServiceDelegate {
+	    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionFeaturesStatusChange enabled: Bool) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface features supsribtion: \(enabled)", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionChannelsStatusChange enabled: Bool) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface channels supsribtion: \(enabled)", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, subscriptionRatesStatusChange enabled: Bool) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface rates supsribtion: \(enabled)", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandFeatures features: [DIoTFeatureData]) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            //update list of futures
+		            self.servicesTableAdapter.features = features
+		            self.tableView.reloadData()
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandChannels channels: [DIoTChannelData]) {
+		        //do nothing
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveCommandRate rates: [DIoTRateData]) {
+		        //do nothing
+		    }
+		    
+		    func commandInterfaceBluetoothService(_ service: DIoTCommandInterfaceBluetoothServiceProtocol, didReceiveError error: DIoTCommandInterfaceBluetoothServiceError) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface error", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothServiceDidWriteCommandFeatures(_ service: DIoTCommandInterfaceBluetoothServiceProtocol) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface feature write completed", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothServiceDidWriteCommandChannels(_ service: DIoTCommandInterfaceBluetoothServiceProtocol) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface channels write completed", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		    
+		    func commandInterfaceBluetoothServiceDidWriteCommandRate(_ service: DIoTCommandInterfaceBluetoothServiceProtocol) {
+		        guard isActive else { return }
+		        DispatchQueue.main.async {
+		            self.showToast(message: "Command interface reates write completed", font: .systemFont(ofSize: 14.0))
+		        }
+		    }
+		}
 
 3) Request data
 
-All possible data requests are showed in class interface source file:
+All possible data requests are showed in the class interface source file:
 
 		public protocol DIoTCommandInterfaceBluetoothServiceProtocol: BluetoothServiceProtocol {
 		    func fetchFeatures()
@@ -195,7 +266,7 @@ All possible data requests are showed in class interface source file:
 		    func unsubscribe(subscriber: DIoTCommandInterfaceBluetoothServiceDelegate)
 		}
 
-We an use it as an example:
+For an example:
 
 		device.commandInterfaceService?.fetchFeature(code: feature.getFeatureCode())
 		device.commandInterfaceService?.cleanFeature(code: feature.getFeatureCode())
