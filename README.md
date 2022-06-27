@@ -119,6 +119,8 @@ Device structure contains services and functions with data structures is used to
 - deviceIdentifierService - is used to receive device UUID
 - debugService - is used to communicate with internal CLI
 
+## Connection
+
 To connect to the device, you must use the connect method in the ConnectionService service of the DIoTBluetoothDevice class:
 
 		var device: DIoTBluetoothDevice? = ... //result of a scan
