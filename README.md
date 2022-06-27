@@ -49,12 +49,6 @@ The main SDK Bluetooth module is DIoTBluetoothManager. This class is used as an 
 		    func stopScan()
 		}
 
-		public protocol DIoTBluetoothConnectionManagerProtocol: DIoTBluetoothManagerProtocol {
-		    func retrievePeripherals(withIdentifiers identifiers: [UUID], competion: @escaping ([PeripheralProtocol]) -> Void)
-		    func retrievePeripheral(withIdentifier identifier: UUID, competion: @escaping (PeripheralProtocol?) -> Void)
-		    func connect(to peripheral: PeripheralProtocol)
-		    func disconnect(from peripheral: PeripheralProtocol)
-		}
 		
 To get the scan result, you need to subscribe to DIoTBluetoothManager events, for example:
 
