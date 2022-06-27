@@ -262,7 +262,7 @@ All possible data requests are showed in the class interface source file:
 		    func unsubscribe(subscriber: DIoTCommandInterfaceBluetoothServiceDelegate)
 		}
 
-For an example:
+For example:
 
 		device.commandInterfaceService?.fetchFeature(code: feature.getFeatureCode())
 		device.commandInterfaceService?.cleanFeature(code: feature.getFeatureCode())
