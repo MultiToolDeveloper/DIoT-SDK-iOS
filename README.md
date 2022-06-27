@@ -1,4 +1,4 @@
-# DIoT Android SDK
+# DIoT iOS SDK
 
 **Welcome to DIoT iOS SDK Application page!**
 
