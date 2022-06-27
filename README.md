@@ -1,6 +1,6 @@
 # DIoT Android SDK
 
-**Welcome to DIoT Android SDK Application page!**
+**Welcome to DIoT iOS SDK Application page!**
 
 DIoT is a platform for different IoT devices provided by Daatrics LTD company.
 The current SDK is released for iOS and Android systems and and you are free to use it to implement a connectivity between your phone and device via BLE. 
